@@ -6,7 +6,7 @@ import {
   ArtistBelowTheFoldQuery,
   ArtistBelowTheFoldQueryVariables,
 } from "__generated__/ArtistBelowTheFoldQuery.graphql"
-import ArtistAbout from "lib/Components/Artist/ArtistAbout"
+import ArtistAbout from "lib/Components/Artist/ArtistAbout/ArtistAbout"
 import ArtistArtworks from "lib/Components/Artist/ArtistArtworks/ArtistArtworks"
 import ArtistHeader from "lib/Components/Artist/ArtistHeader"
 import ArtistShows from "lib/Components/Artist/ArtistShows/ArtistShows"
@@ -38,46 +38,48 @@ export const Artist: React.FC<{
   if (displayAboutSection) {
     tabs.push({
       title: "About",
+      initial: true, // TODO: revert
       content: artistBelowTheFold ? <ArtistAbout artist={artistBelowTheFold} /> : <LoadingPage />,
     })
   }
 
-  if ((artistAboveTheFold.counts?.artworks ?? 0) > 0) {
-    tabs.push({
-      title: "Artworks",
-      initial: true,
-      content: <ArtistArtworks artist={artistAboveTheFold} />,
-    })
-  }
+  // if ((artistAboveTheFold.counts?.artworks ?? 0) > 0) {
+  //   tabs.push({
+  //     title: "Artworks",
+  //     initial: false, // TODO: revert
+  //     content: <ArtistArtworks artist={artistAboveTheFold} />,
+  //   })
+  // }
 
-  if ((artistAboveTheFold.counts?.partner_shows ?? 0) > 0) {
-    tabs.push({
-      title: "Shows",
-      content: artistBelowTheFold ? <ArtistShows artist={artistBelowTheFold} /> : <LoadingPage />,
-    })
-  }
+  // const isArtistInsightsEnabled = getCurrentEmissionState().options.AROptionsNewInsightsPage
 
-  const isArtistInsightsEnabled = getCurrentEmissionState().options.AROptionsNewInsightsPage
-  if (isArtistInsightsEnabled) {
-    tabs.push({
-      title: "Insights",
-      content: <ArtistInsights />,
-    })
-  }
+  // if ((artistAboveTheFold.counts?.partner_shows ?? 0) > 0 && isArtistInsightsEnabled) {
+  //   tabs.push({
+  //     title: "Shows",
+  //     content: artistBelowTheFold ? <ArtistShows artist={artistBelowTheFold} /> : <LoadingPage />,
+  //   })
+  // }
 
-  if ((!isArtistInsightsEnabled && tabs.length === 0) || (isArtistInsightsEnabled && tabs.length === 1)) {
-    tabs.push({
-      title: "Artworks",
-      content: (
-        <StickyTabPageScrollView>
-          <Message>
-            There aren’t any works available by the artist at this time. Follow to receive notifications when new works
-            are added.
-          </Message>
-        </StickyTabPageScrollView>
-      ),
-    })
-  }
+  // if (isArtistInsightsEnabled) {
+  //   tabs.push({
+  //     title: "Insights",
+  //     content: <ArtistInsights />,
+  //   })
+  // }
+
+  // if ((!isArtistInsightsEnabled && tabs.length === 0) || (isArtistInsightsEnabled && tabs.length === 1)) {
+  //   tabs.push({
+  //     title: "Artworks",
+  //     content: (
+  //       <StickyTabPageScrollView>
+  //         <Message>
+  //           There aren’t any works available by the artist at this time. Follow to receive notifications when new works
+  //           are added.
+  //         </Message>
+  //       </StickyTabPageScrollView>
+  //     ),
+  //   })
+  // }
 
   return (
     <ProvideScreenTracking

@@ -47,7 +47,7 @@ class Show extends React.Component<Props> {
   }
 }
 
-export default createFragmentContainer(Show, {
+export const ArtistShowFragmentContainer = createFragmentContainer(Show, {
   show: graphql`
     fragment ArtistShow_show on Show {
       slug
