@@ -12,7 +12,7 @@ import chalk from "chalk"
 import Enzyme from "enzyme"
 // @ts-ignore
 import Adapter from "enzyme-adapter-react-16"
-import expect from "expect"
+// import expect from "expect"
 import { format } from "util"
 
 import "lib/tests/renderUntil"
@@ -20,7 +20,8 @@ Enzyme.configure({ adapter: new Adapter() })
 
 // Waiting on https://github.com/thymikee/snapshot-diff/pull/17
 import diff from "snapshot-diff"
-expect.extend({ toMatchDiffSnapshot: (diff as any).toMatchDiffSnapshot })
+void diff
+// expect.extend({ toMatchDiffSnapshot: (diff as any).toMatchDiffSnapshot })
 
 jest.mock("react-tracking")
 import track, { useTracking } from "react-tracking"
