@@ -6,7 +6,7 @@ import Articles from "../Articles"
 import Biography from "../Biography"
 
 import { ArtistAbout_artist } from "__generated__/ArtistAbout_artist.graphql"
-import SwitchBoard from "lib/NativeModules/SwitchBoard"
+import { navigate } from "lib/navigation/navigate"
 import { getCurrentEmissionState } from "lib/store/GlobalStore"
 import { extractNodes } from "lib/utils/extractNodes"
 import { CaretButton } from "../../Buttons/CaretButton"
@@ -19,38 +19,33 @@ interface Props {
   artist: ArtistAbout_artist
 }
 
-const ArtistAbout: React.FC<Props> = ({ artist }) => {
+export const ArtistAbout: React.FC<Props> = ({ artist }) => {
   const articles = extractNodes(artist.articles)
   const relatedArtists = extractNodes(artist.related?.artists)
 
   return (
     <StickyTabPageScrollView>
       <Stack spacing={3} my={2}>
-        {/* {!!artist.has_metadata && <Biography artist={artist as any} />}
-          {!!artist.is_display_auction_link && (
-            <CaretButton
-              text="Auction results"
-              onPress={() =>
-                SwitchBoard.presentNavigationViewController(this, `/artist/${artist.slug}/auction-results`)
-              }
-            />
-          )}
-          <ArtistConsignButton artist={artist} /> */}
+        {!!artist.hasMetadata && <Biography artist={artist as any} />}
+        {!!artist.isDisplayAuctionLink && (
+          <CaretButton text="Auction results" onPress={() => navigate(`/artist/${artist.slug}/auction-results`)} />
+        )}
+        <ArtistConsignButton artist={artist} />
         {!!getCurrentEmissionState().options.AROptionsNewInsightsPage && (
           <ArtistAboutShowsFragmentContainer artist={artist} />
         )}
-        {/* {!!articles.length && <Articles articles={articles} />}
-          {!!relatedArtists.length && <RelatedArtists artists={relatedArtists} />} */}
+        {!!articles.length && <Articles articles={articles} />}
+        {!!relatedArtists.length && <RelatedArtists artists={relatedArtists} />}
       </Stack>
     </StickyTabPageScrollView>
   )
 }
 
-export default createFragmentContainer(ArtistAbout, {
+export const ArtistAboutContainer = createFragmentContainer(ArtistAbout, {
   artist: graphql`
     fragment ArtistAbout_artist on Artist {
-      has_metadata: hasMetadata
-      is_display_auction_link: isDisplayAuctionLink
+      hasMetadata
+      isDisplayAuctionLink
       slug
       ...Biography_artist
       ...ArtistConsignButton_artist
